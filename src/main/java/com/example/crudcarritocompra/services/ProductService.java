@@ -38,13 +38,14 @@ public class ProductService {
     //Main methods
 
     //Crear producto
-    public Product crearProducto(String name, BigDecimal price){
+    public boolean crearProducto(String name, BigDecimal price){
 
         Product newProduct = new Product(idProductGenerator,name,price);
         productos.add(newProduct);
         idGenerator();
 
-        return newProduct;
+
+        return true;
     }
 
     //Actualizar producto
