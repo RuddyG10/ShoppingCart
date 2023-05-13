@@ -38,13 +38,10 @@ public class ProductService {
     //Main methods
 
     //Crear producto
-    public boolean crearProducto(String name, BigDecimal price){
-
-        Product newProduct = new Product(idProductGenerator,name,price);
-        productos.add(newProduct);
+    public boolean crearProducto(Product product){
+        product.setId(idProductGenerator);
+        productos.add(product);
         idGenerator();
-
-
         return true;
     }
 
