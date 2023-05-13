@@ -6,13 +6,15 @@ import com.example.crudcarritocompra.services.ProductService;
 import com.example.crudcarritocompra.services.UserService;
 import com.example.crudcarritocompra.user.User;
 import jakarta.annotation.PostConstruct;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-@RestController
-@RequestMapping("/homePage")
+@Controller
 public class UserController {
 
     //Parameters
@@ -22,8 +24,10 @@ public class UserController {
     //Post constructs
     @PostConstruct
     public void addProducts(){
-        productService.crearProducto("product1", BigDecimal.valueOf(40.00));
-        productService.crearProducto("product2",BigDecimal.valueOf(50.00));
+        Product product1 = new Product("product1",BigDecimal.valueOf(40.00));
+        Product product2 = new Product("product2",BigDecimal.valueOf(60.00));
+        productService.crearProducto(product1);
+        productService.crearProducto(product2);
     }
     @PostConstruct
     public void addAdmin(){
@@ -32,10 +36,13 @@ public class UserController {
 
     //Home Page
     @GetMapping("/init")
-    public String home(){
-        return "home";
+    public String getHome(Model model){
+        model.addAttribute("products",productService.visualizarProductos());
+        model.addAttribute("newProduct",new Product());
+        return "index";
     }
     //Login
+
     @PostMapping("/login")
     public User loginSubmit(@RequestParam("userName") String userName, @RequestParam("name") String name){
         User user = userService.findUserByUserName(userName);
@@ -51,6 +58,13 @@ public class UserController {
         List<Product> products = productService.visualizarProductos();
         return ResponseEntity.ok(products);
     }
+
+    @PostMapping("/createProduct")
+    public String createProduct(@ModelAttribute Product product){
+        productService.crearProducto(product);
+        return "redirect:/init";
+    }
+
 
     //Shopping
     //Add to cart
