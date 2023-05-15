@@ -39,9 +39,11 @@ public class ProductService {
 
     //Crear producto
     public boolean crearProducto(Product product){
-        product.setId(idProductGenerator);
+        if(findProductById(product.getId()) ==null){
+            product.setId(idProductGenerator);
+            idGenerator();
+        }
         productos.add(product);
-        idGenerator();
         return true;
     }
 

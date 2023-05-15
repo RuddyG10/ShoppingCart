@@ -16,7 +16,7 @@ public class CarritoCompraService {
     //parameters
     private static long shopCartIdGen = 0;
     private static long salesIdGen = 0;
-    private List<CarroCompra> listaCarritos = new ArrayList<CarroCompra>();
+    private List<Product> listaProductos = new ArrayList<Product>();
     private List<VentasProductos> listaVentas = new ArrayList<VentasProductos>();
 
     //Helper Methods
@@ -37,6 +37,7 @@ public class CarritoCompraService {
         return formatDate;
     }
     //find shopping cart
+    /*
     public CarroCompra findCartById(long id){
         CarroCompra auxCart = null;
         for (CarroCompra cart:
@@ -48,6 +49,8 @@ public class CarritoCompraService {
         }
         return auxCart;
     }
+    */
+
 
     //Main methods
 
@@ -62,68 +65,47 @@ public class CarritoCompraService {
     }
 
     //Add Product
-    public boolean addProduct(long id, Product product){
-        CarroCompra auxCart = findCartById(id);
-        boolean added = false;
-        if (auxCart != null) {
-            auxCart.getListaProductos().add(product);
-            added = true;
-        }
-        else {
-            createCart(product);
-        }
-        return added;
-
+    public void addProduct(Product product){
+        listaProductos.add(product);
+        System.out.println(product.getName());
     }
     //Clear cart
-    public boolean  removeProduct(long id,Product product){
-        CarroCompra auxCart = findCartById(id);
+    public boolean  removeProduct(Product product){
         boolean removed = false;
-        if(auxCart.getListaProductos().contains(product)){
-            auxCart.getListaProductos().remove(product);
+        if(listaProductos.contains(product)){
+            listaProductos.remove(product);
             removed = true;
         }
         return removed;
     }
 
     //view products
-    public List<Product> showProductsInCart(long id) {
-        CarroCompra auxCart = findCartById(id);
-        return auxCart.getListaProductos();
+    public List<Product> showProductsInCart() {
+        return listaProductos;
     }
-
-
 
     //view total
     public BigDecimal getTotalPrice(long id) {
         BigDecimal total = null;
-        CarroCompra auxCart = findCartById(id);
-        List<Product> products = auxCart.getListaProductos();
         for (Product product:
-             products) {
+             listaProductos) {
             total.add(product.getPrice());
         }
         return total;
     }
 
     //Make Purchase
-    public boolean salesProcess(long id, String userName){
-        CarroCompra cart = findCartById(id);
+    public void salesProcess(String userName){
         boolean done = false;
-        if(cart != null){
-            registerSales(cart,userName);
-            cart.getListaProductos().clear();
-            done = true;
-        }
-
-        return done;
+        registerSales(listaProductos,userName);
+        listaProductos.clear();
 
     }
 
     //Register sales
-    public void registerSales(CarroCompra cart, String user){
+    public void registerSales(List<Product> cart, String user){
         Date actualDate = new Date();
-        VentasProductos venta = new VentasProductos(salesIdGen,actualDate,user,cart.getListaProductos());
+        VentasProductos venta = new VentasProductos(salesIdGen,actualDate,user,cart);
         listaVentas.add(venta);
         idGeneratorSales();
     }
