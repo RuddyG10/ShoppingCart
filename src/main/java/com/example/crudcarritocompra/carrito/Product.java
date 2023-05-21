@@ -1,14 +1,23 @@
 package com.example.crudcarritocompra.carrito;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "Products")
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "prodName")
     private String name;
+
+    @Column(name = "price")
     private BigDecimal price;
 
     public Product() {

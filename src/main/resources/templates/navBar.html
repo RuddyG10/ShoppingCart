@@ -8,7 +8,9 @@
                 <li class="nav-item"> <a class="nav-link" href="/">Comprar</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/login-ventas">Ventas Realizadas</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/login-adm">Administrar Productos</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/shoppingCart">Carrito (Contador)</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/shoppingCart">
+                    Carrito <span th:text="${cantidad}"></span>
+                </a></li>
             </ul>
         </div>
     </nav>
