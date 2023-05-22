@@ -34,7 +34,10 @@
                     <td>Cantidad</td>
                     <td>Total</td>
                     <td>
-                        <button type="button" class="btn btn-dark">Eliminar</button>
+                        <form th:action="@{/removeProduct}" method="post">
+                            <input type="hidden" name="productId" th:value="${product.getId()}">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
                     </td>
 
                 </tr>
