@@ -4,17 +4,16 @@ package com.example.crudcarritocompra.user;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
 
+    @Id
     @Column(name = "userName")
     private String userName;
     @Column(name = "password")
     private String password;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+
 
     public User() {
     }
@@ -40,11 +39,4 @@ public class User {
         this.password = password;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

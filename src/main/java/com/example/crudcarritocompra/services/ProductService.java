@@ -17,8 +17,8 @@ public class ProductService {
     private ProductRepository productRepository;
 
     //Helper
-    public Optional<Product> findProdById(Long id){
-        return productRepository.findById(id);
+    public Product findProdById(Long id){
+        return productRepository.findById(id).orElse(null);
     }
 
     //Main methods

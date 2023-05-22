@@ -3,31 +3,62 @@ package com.example.crudcarritocompra.controllers;
 import com.example.crudcarritocompra.carrito.Product;
 import com.example.crudcarritocompra.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+@Controller
 @RequestMapping("/products")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    //
+
 
 
     //Create Products
-    @GetMapping("/createProd")
+    @GetMapping("/")
     public String productForm(Model model){
-        model.addAttribute("product",new Product());
-        return "productForm";
+        List<Product> products = productService.listProducts();
+        model.addAttribute("products",products);
+        //Product product = new Product();
+        //model.addAttribute("product",product);
+        return "regProdForm";
     }
     @PostMapping("/createProd")
-    public String createProduct(@ModelAttribute("product") Product product){
+    public String createProduct(@RequestParam("name") String name, @RequestParam("price") String price){
+        Product product = new Product();
+        product.setName(name);
+        BigDecimal priceDecimal = new BigDecimal(price);
         productService.createProduct(product);
-        return "redirect:/products";
+        return "redirect:/products/";
     }
 
+    //Delete products
+    public String deleteProduct(@PathVariable("id") Long id){
+        Product product = productService.findProdById(id);
+        productService.removeProduct(product);
+        return "redirect:/index";
+    }
+
+    //Editar producto
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable("id") Long id, Model model){
+        Product product = productService.findProdById(id);
+        model.addAttribute("product",product);
+        return "prodEditForm";
+    }
+
+    public String editProduct(@PathVariable("id") Long id, @ModelAttribute("product") Product product){
+        product.setId(id);
+        productService.createProduct(product);
+        return "redirect:/index";
+    }
 
 
     //Last Code

@@ -5,7 +5,6 @@ import com.example.crudcarritocompra.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +16,8 @@ public class UserService {
 
     //Helper
     //Find user by id
-    public Optional<User> findUserById(Long id){
-        return userRepository.findById(id);
+    public Optional<User> findUserByusername(String username){
+        return userRepository.findByUserName(username);
     }
 
     //Main Methods
